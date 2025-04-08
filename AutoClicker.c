@@ -17,7 +17,19 @@ int TOGGLE_KEY = 0;
 void getKeybind();
 void printMenu();
 void changeCPS();
+void refreshMenu();
 
+void printAboutProgram()
+{
+    refreshMenu();
+    printf(PRINT_AQUA"\n\n================================= " PRINT_COLOR_RESET PRINT_LIGHT_AQUA "CREDITS " PRINT_COLOR_RESET PRINT_AQUA"=================================\n" PRINT_COLOR_RESET);
+    printf(PRINT_GOLD"\nDeveloped by: HarpCheemse");
+    printf("\nVersion: 1.0");
+    printf("\n- [Any libraries or resources used]");
+    printf("\nContact: [harpcheemse@gmail.com]" PRINT_COLOR_RESET);
+    printf(PRINT_AQUA"\n===========================================================================\n"PRINT_COLOR_RESET);
+    printf(PRINT_GOLD"\n\nUse the ` key to toggle on and off the autoclicker, the cps might not be 100%% accurate the cps is max i could get is ~70cps\n\n");
+}
 void clearBuffer()
 {
     int ch;
@@ -35,7 +47,8 @@ void printMenu()
     printf(PRINT_GOLD"          Auto Clicker        \n");
     printf("1. Set Click Speed. Currently"PRINT_GREEN" %d"PRINT_COLOR_RESET PRINT_GOLD" CPS\n", CLICK_PER_SECOND);
     printf("2. Set Key Bind. Currently ` \n");
-    printf("3. Exit The Program\n"PRINT_COLOR_RESET);
+    printf("3. About The Program \n");
+    printf("4. Exit The Program\n"PRINT_COLOR_RESET);
     printf(PRINT_AQUA"%s\n"PRINT_COLOR_RESET, line);
 }
 void printUserPrompt()
@@ -57,14 +70,14 @@ void menuHandler()
         scanf("%d", &user_selection);
         switch (user_selection)
         {
-        case 1:
+        case 1:  // change CPS
             refreshMenu();
             printUserPrompt();
             changeCPS();
             refreshMenu();
             printUserPrompt();
             break;
-        case 2:
+        case 2: // KeyBind
             refreshMenu();
             printf("This Feature Will Be Implemented Soon :3\n");
             printf(PRINT_AQUA"Press Enter to continue..."PRINT_COLOR_RESET);
@@ -72,10 +85,18 @@ void menuHandler()
             getchar();
             printUserPrompt();
             break;
-        case 3:
+        case 3:  // About The Program
+            printAboutProgram();
+            printf(PRINT_AQUA"Press Enter to continue..."PRINT_COLOR_RESET);
+            while (getchar() != '\n');
+            getchar();
+            refreshMenu();
+            printUserPrompt();
+            break;
+        case 4:
             refreshMenu();
             printf(PRINT_GREEN"Exit Program Succesfully"PRINT_COLOR_RESET);
-            break;
+            exit(0);
         default:
             clearBuffer();
             refreshMenu();
@@ -101,10 +122,6 @@ void* clickEvent(void* arg)
         {
             AUTO_CLICKER_RUNNING = !AUTO_CLICKER_RUNNING;
             Sleep(150); //debound delay
-        }
-        if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-        {
-            exit(0);
         }
         if(AUTO_CLICKER_RUNNING)
         {
